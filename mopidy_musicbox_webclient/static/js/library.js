@@ -78,7 +78,7 @@ function processSearchResults(resultArr) {
     // TODO  should of coures have multiple tables
     var results = {'tracks': [], 'artists': [], 'albums': []};
     var j, emptyResult = true;
-    
+
 /*    for (var i = 0; i < resultArr.length; ++i) {
         for (var prop in results) {
             if (resultArr[i][prop] && resultArr[i][prop].length) {
@@ -337,6 +337,7 @@ function getSearchSchemes() {
     mopidy.getUriSchemes().then(
         function(schemesArray) {
             var humanIndex;
+            var spotifyPresent = false;
             $("#selectSearchService").children().remove().end();
             $("#selectSearchService").append(new Option('All services', 'all'));
             for (var i = 0; i < schemesArray.length; i++) {
@@ -345,7 +346,9 @@ function getSearchSchemes() {
                         $("#selectSearchService").append(new Option(uriHumanList[j][1], schemesArray[i]));
                     }
                 }
+                if (schemesArray[i].toLowerCase() == "spotify") spotifyPresent = true;
             }
+            if (!spotifyPresent) $("#selectSearchService option[value='spotifytunigo'").remove();
             $("#selectSearchService").selectmenu( "refresh", true );
         }, console.error
     );
